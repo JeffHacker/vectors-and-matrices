@@ -1,5 +1,5 @@
 # Vector and Matrix Math
-
+ 
 ## Description
 
 Implement various vector and matrix math functions using no math libraries.

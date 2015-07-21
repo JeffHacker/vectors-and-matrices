@@ -2,15 +2,15 @@ class ShapeException(Exception):
     pass
 
 
+def shape():
+    pass
+
+
 def dot():
     pass
 
 
 def magnitude():
-    pass
-
-
-def shape():
     pass
 
 
@@ -52,5 +52,3 @@ def matrix_vector_multiply():
 
 def matrix_matrix_multiply():
     pass
-
-

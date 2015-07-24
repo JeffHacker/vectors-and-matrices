@@ -2,10 +2,76 @@ from matrix_math import *
 from nose.tools import raises
 
 
-def is_equal(x, y, tolerance=0.001):
+def is_equal(x, y, tolerance=0.001):#NA
     """Helper function to compare floats, which are often not quite equal
     even when they should be."""
     return abs(x - y) <= tolerance
+
+m = [3, 4]
+n = [5, 0]
+
+v = [1, 3, 0]
+w = [0, 2, 4]
+u = [1, 1, 1]
+y = [10, 20, 30]
+z = [0, 0, 0]
+
+
+def test_shape_vectors():#Complete!
+    """shape should take a vector or matrix and return a tuple with the
+    number of rows (for a vector) or the number of rows and columns
+    (for a matrix.)"""
+    assert shape(m) == (2,)
+    assert shape(v) == (3,)
+    assert shape([1]) == (1,)
+
+test_shape_vectors()
+
+
+def test_vector_add():#Complete!
+    """
+    [a b]  + [c d]  = [a+c b+d]
+
+    Matrix + Matrix = Matrix
+    """
+    assert vector_add(v, w) == [1, 5, 4]
+    assert vector_add(u, y) == [11, 21, 31]
+    assert vector_add(u, z) == u
+
+test_vector_add()
+
+
+def test_vector_add_is_communicative():#Complete
+    assert vector_add(w, y) == vector_add(y, w)
+
+test_vector_add_is_communicative()
+
+
+@raises(ShapeException)
+def test_vector_add_checks_shapes():
+    """Shape rule: the vectors must be the same size."""
+    vector_add(m, v)
+
+#test_vector_add_checks_shapes()
+
+
+def test_vector_sub():#Complete
+    """
+    [a b]  - [c d]  = [a-c b-d]
+    Matrix + Matrix = Matrix
+    """
+    assert vector_sub(v, w) == [1, 1, -4]
+    assert vector_sub(w, v) == [-1, -1, 4]
+    assert vector_sub(y, z) == y
+    assert vector_sub(w, u) == vector_sub(z, vector_sub(u, w))
+
+test_vector_sub()
+
+
+@raises(ShapeException)
+def test_vector_sub_checks_shapes():
+    """Shape rule: the vectors must be the same size."""
+    vector_sub(m, v)
 
 
 m = [3, 4]
@@ -18,64 +84,18 @@ y = [10, 20, 30]
 z = [0, 0, 0]
 
 
-def test_shape_vectors():
-    """shape should take a vector or matrix and return a tuple with the
-    number of rows (for a vector) or the number of rows and columns
-    (for a matrix.)"""
-    assert shape(m) == (2,)
-    assert shape(v) == (3,)
-    assert shape([1]) == (1,)
-
-
-def test_vector_add():
-    """
-    [a b]  + [c d]  = [a+c b+d]
-
-    Matrix + Matrix = Matrix
-    """
-    assert vector_add(v, w) == [1, 5, 4]
-    assert vector_add(u, y) == [11, 21, 31]
-    assert vector_add(u, z) == u
-
-
-def test_vector_add_is_communicative():
-    assert vector_add(w, y) == vector_add(y, w)
-
-
-@raises(ShapeException)
-def test_vector_add_checks_shapes():
-    """Shape rule: the vectors must be the same size."""
-    vector_add(m, v)
-
-
-def test_vector_sub():
-    """
-    [a b]  - [c d]  = [a-c b-d]
-
-    Matrix + Matrix = Matrix
-    """
-    assert vector_sub(v, w) == [1, 1, -4]
-    assert vector_sub(w, v) == [-1, -1, 4]
-    assert vector_sub(y, z) == y
-    assert vector_sub(w, u) == vector_sub(z, vector_sub(u, w))
-
-
-@raises(ShapeException)
-def test_vector_sub_checks_shapes():
-    """Shape rule: the vectors must be the same size."""
-    vector_sub(m, v)
-
-
 def test_vector_sum():
     """vector_sum can take any number of vectors and add them together."""
     assert vector_sum(v, w, u, y, z) == [12, 26, 35]
 
+###
 
 @raises(ShapeException)
 def test_vector_sum_checks_shapes():
     """Shape rule: the vectors must be the same size."""
     vector_sum(v, w, m, y)
 
+###
 
 def test_dot():
     """
@@ -87,12 +107,14 @@ def test_dot():
     assert dot(m, n) == 15
     assert dot(u, z) == 0
 
+###
 
 @raises(ShapeException)
 def test_dot_checks_shapes():
     """Shape rule: the vectors must be the same size."""
     dot(v, m)
 
+###
 
 def test_vector_multiply():
     """
@@ -103,6 +125,7 @@ def test_vector_multiply():
     assert vector_multiply(v, 0.5) == [0.5, 1.5, 0]
     assert vector_multiply(m, 2) == [6, 8]
 
+###
 
 def test_vector_mean():
     """
@@ -116,6 +139,7 @@ def test_vector_mean():
     assert is_equal(vector_mean(v, w, u)[1], 2)
     assert is_equal(vector_mean(v, w, u)[2], 5 / 3)
 
+###
 
 def test_magnitude():
     """
@@ -141,6 +165,7 @@ C = [[1, 2],
 D = [[1, 2, 3],
      [3, 2, 1]]
 
+###
 
 def test_shape_matrices():
     """shape should take a vector or matrix and return a tuple with the
@@ -150,6 +175,7 @@ def test_shape_matrices():
     assert shape(C) == (3, 2)
     assert shape(D) == (2, 3)
 
+###
 
 def test_matrix_row():
     """
@@ -163,6 +189,7 @@ def test_matrix_row():
     assert matrix_row(B, 1) == [4, 5, 6]
     assert matrix_row(C, 2) == [1, 2]
 
+###
 
 def test_matrix_col():
     """
@@ -176,6 +203,7 @@ def test_matrix_col():
     assert matrix_col(B, 1) == [2, 5, 8]
     assert matrix_col(D, 2) == [3, 1]
 
+###
 
 def test_matrix_scalar_multiply():
     """
@@ -188,6 +216,7 @@ def test_matrix_scalar_multiply():
                                             [6, 3],
                                             [3, 6]]
 
+###
 
 def test_matrix_vector_multiply():
     """
@@ -202,6 +231,7 @@ def test_matrix_vector_multiply():
     assert matrix_vector_multiply(C, [3, 4]) == [11, 10, 11]
     assert matrix_vector_multiply(D, [0, 1, 2]) == [8, 4]
 
+###
 
 @raises(ShapeException)
 def test_matrix_vector_multiply_checks_shapes():
@@ -209,6 +239,7 @@ def test_matrix_vector_multiply_checks_shapes():
     columns of the matrix."""
     matrix_vector_multiply(C, [1, 2, 3])
 
+###
 
 def test_matrix_matrix_multiply():
     """
@@ -218,7 +249,7 @@ def test_matrix_matrix_multiply():
 
     Matrix * Matrix = Matrix
     """
-    assert matrix_matrix_multiply(A, B) == A
+    assert matrix_matrix_multiply(A, B) == B
     assert matrix_matrix_multiply(B, C) == [[8, 10],
                                             [20, 25],
                                             [32, 40]]
@@ -227,6 +258,7 @@ def test_matrix_matrix_multiply():
                                             [7, 6, 5]]
     assert matrix_matrix_multiply(D, C) == [[8, 10], [8, 10]]
 
+###
 
 @raises(ShapeException)
 def test_matrix_matrix_multiply_checks_shapes():
